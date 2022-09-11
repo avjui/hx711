@@ -8,7 +8,7 @@
 HX711::HX711(int pdsck, int dout, int gain)
 {
 #ifdef DEBUG_HX711
-    esp_log_level_set(MODUL_HX711, ESP_LOG_DEBUG);
+    esp_log_level_set(MODUL_PWM, ESP_LOG_VERBOSE);
 #endif
 
     _pdsck = (gpio_num_t)pdsck;
@@ -36,6 +36,8 @@ HX711::HX711(int pdsck, int dout, int gain)
 
     gpio_config(&pdsck_conf);
     gpio_config(&dout_conf);
+
+    trys = 0;
     
     //with power on we make also a reset to get in defined state
     poweron();
@@ -54,15 +56,21 @@ bool HX711::calibrate()
 }
 
 void HX711::tare(int times) {
-	double sum = read_average(times);
+    double sum = 0; 
+    if(trys != 10){
+	    sum = read_average(times);
+    };
 	offset = sum;
 }
 
 
 float HX711::getLoad(uint64_t  times)
 {
+    float load = -1.0;
     //float load = read_average(times) / scale;
-    float load = (read_average(times)  - offset) / 2280.f;
+    if(trys != 10){
+        load = (read_average(times)  - offset) / 2280.f;
+    }
     // convert _load to readable value
     return load;
 }
@@ -119,7 +127,6 @@ void HX711::_readData(void)
 {
     uint32_t raw_data = 0;
     portMUX_TYPE mux = portMUX_INITIALIZER_UNLOCKED;
-    //gpio_set_level(_pdsck, LOW);
     wait_ready();
     portENTER_CRITICAL(&mux);
     for (int i = 0; i < 24; i++)
@@ -149,39 +156,29 @@ void HX711::_readData(void)
     input signal comes back to the input range.
     */
 
-    /*if(raw_data & 0x80)
-    {
-        _load = -((raw_data ^ 0xffffff) + 1);
-    }
-    */
-   /*
-   raw_data = raw_data ^ 0x800000; // flip the 24th bit
-    if (raw_data > 0xFFFFFF)
-    {
-        ESP_LOGW(MODUL_HX711, "Data out of range!!!\n");
-        return;
-    }
-    else{
-    _load = (int32_t)raw_data;
-    }
-    */
     if (raw_data & 0x800000){
         raw_data |= 0xff0000;
         //raw_data |= 0xff000000;
     }
-    ESP_LOGI(MODUL_HX711, "RAW_DATA: %d", raw_data);
+    ESP_LOGV(MODUL_HX711, "RAW_DATA: %d", raw_data);
     _load = ((int32_t)raw_data);
     return;
 }
 
 
 void HX711::wait_ready(unsigned long delay_ms) {
-	// Wait for the chip to become ready.
+	
+    trys = 0;
+    // Wait for the chip to become ready.
 	// This is a blocking implementation and will
-	while (!isReady()) {
-        //ESP_LOGI(MODUL_HX711,"Waiting");
+	while (!isReady() || trys == 10) {
+        ESP_LOGI(MODUL_HX711,"Waiting");
 	    vTaskDelay(portTICK_PERIOD_MS);
-	}
+        trys++;
+	};
+    if(trys == 10){
+        ESP_LOGE(MODUL_HX711, "No response from hx711 sensor! Please check your wiring");
+    };
 }
 
 long HX711::read_average(uint64_t  times) {

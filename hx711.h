@@ -45,6 +45,7 @@ class HX711 {
     private:
         void _readData();
         long read_average(uint64_t  times);
+        uint8_t trys;
 
     private:
         gpio_num_t _pdsck;

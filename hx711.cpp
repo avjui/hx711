@@ -8,7 +8,9 @@
 HX711::HX711(int pdsck, int dout, int gain)
 {
 #ifdef DEBUG_HX711
-    esp_log_level_set(MODUL_PWM, ESP_LOG_VERBOSE);
+    esp_log_level_set(MODUL_HX711, ESP_LOG_VERBOSE);
+#else
+    esp_log_level_set(MODUL_HX711, ESP_LOG_INFO);
 #endif
 
     _pdsck = (gpio_num_t)pdsck;

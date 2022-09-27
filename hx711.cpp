@@ -1,11 +1,7 @@
 
 #include "hx711.h"
 
-/**
- * @brief initialize hx711 driver
- * 
- */
-HX711::HX711(int pdsck, int dout, int gain)
+HX711::HX711(hx711_conf_t *conf_hx711)
 {
 #ifdef DEBUG_HX711
     esp_log_level_set(MODUL_HX711, ESP_LOG_VERBOSE);
@@ -13,26 +9,28 @@ HX711::HX711(int pdsck, int dout, int gain)
     esp_log_level_set(MODUL_HX711, ESP_LOG_INFO);
 #endif
 
-    _pdsck = (gpio_num_t)pdsck;
-    _dout = (gpio_num_t)dout;
-    _gain = gain;
+    _pdsck = (gpio_num_t) conf_hx711->pin_pdsck;
+    _dout = (gpio_num_t) conf_hx711->pin_dout;
+    read_times = conf_hx711->read_times;
+    _gain = conf_hx711->gain;
     _delta = 0;
-    _load = 0;
-    offset = OFFSET;
-    ESP_LOGI(MODUL_HX711, "Pin PD_SCK: %d \t Pin DOUT: %d", _pdsck, _dout);
+    _load = conf_hx711->load;
+    _oload =0.;
+    offset = conf_hx711->offset;
+    ESP_LOGV(MODUL_HX711, "Pin PD_SCK: %d \t Pin DOUT: %d", _pdsck, _dout);
 
     
     //pdsck config
     pdsck_conf.intr_type = GPIO_INTR_DISABLE;
     pdsck_conf.mode = GPIO_MODE_OUTPUT;
-    pdsck_conf.pin_bit_mask = (1ULL << pdsck);
+    pdsck_conf.pin_bit_mask = (1ULL << conf_hx711->pin_pdsck);
     pdsck_conf.pull_down_en = GPIO_PULLDOWN_DISABLE;
     pdsck_conf.pull_up_en = GPIO_PULLUP_ENABLE;
 
     //dout config
     dout_conf.intr_type = GPIO_INTR_DISABLE;
     dout_conf.mode = GPIO_MODE_INPUT;
-    dout_conf.pin_bit_mask = (1ULL << dout);
+    dout_conf.pin_bit_mask = (1ULL << conf_hx711->pin_dout);
     dout_conf.pull_down_en = GPIO_PULLDOWN_DISABLE;
     dout_conf.pull_up_en = GPIO_PULLUP_ENABLE;
 
@@ -46,10 +44,11 @@ HX711::HX711(int pdsck, int dout, int gain)
     return;
 }
 
+
 bool HX711::calibrate()
 {
     _readData();
-    _delta = _load;
+    _delta = *_load;
     if (_delta)
     {
         return true;
@@ -59,22 +58,19 @@ bool HX711::calibrate()
 
 void HX711::tare(int times) {
     double sum = 0; 
-    if(trys != 10){
-	    sum = read_average(times);
-    };
+	sum = read_average(times);
 	offset = sum;
+    ESP_LOGI(MODUL_HX711, "Offset set to : %f", offset);
 }
 
 
-float HX711::getLoad(uint64_t  times)
+void HX711::getLoad(uint64_t  times)
 {
-    float load = -1.0;
     //float load = read_average(times) / scale;
     if(trys != 10){
-        load = (read_average(times)  - offset) / 2280.f;
+        *_load = (read_average(times)  - offset) / 2280.f;
     }
-    // convert _load to readable value
-    return load;
+    return ;
 }
 
 /**
@@ -159,11 +155,11 @@ void HX711::_readData(void)
     */
 
     if (raw_data & 0x800000){
-        raw_data |= 0xff0000;
-        //raw_data |= 0xff000000;
+        //raw_data |= 0xff0000;
+        raw_data |= 0xff00000;
     }
     ESP_LOGV(MODUL_HX711, "RAW_DATA: %d", raw_data);
-    _load = ((int32_t)raw_data);
+    _oload = ((int32_t)raw_data);
     return;
 }
 
@@ -174,7 +170,7 @@ void HX711::wait_ready(unsigned long delay_ms) {
     // Wait for the chip to become ready.
 	// This is a blocking implementation and will
 	while (!isReady() || trys == 10) {
-        ESP_LOGI(MODUL_HX711,"Waiting");
+        ESP_LOGV(MODUL_HX711,"Waiting");
 	    vTaskDelay(portTICK_PERIOD_MS);
         trys++;
 	};
@@ -184,10 +180,10 @@ void HX711::wait_ready(unsigned long delay_ms) {
 }
 
 long HX711::read_average(uint64_t  times) {
-	long sum = 0;
+	float sum = 0.;
 	for (uint64_t i = 0; i < times; i++) {
 		_readData();
-        sum += _load;
+        sum += _oload;
 		//ets_delay_us(1);
 	}
 	return (sum / times);

@@ -1,6 +1,7 @@
 
 #include "hx711.h"
 
+
 HX711::HX711(hx711_conf_t *conf_hx711)
 {
 #ifdef DEBUG_HX711
@@ -13,10 +14,10 @@ HX711::HX711(hx711_conf_t *conf_hx711)
     _dout = (gpio_num_t) conf_hx711->pin_dout;
     read_times = conf_hx711->read_times;
     _gain = conf_hx711->gain;
-    _delta = 0;
     _load = conf_hx711->load;
     _oload =0.;
     offset = conf_hx711->offset;
+    _scale = conf_hx711->scale;
     ESP_LOGV(MODUL_HX711, "Pin PD_SCK: %d \t Pin DOUT: %d", _pdsck, _dout);
 
     
@@ -45,30 +46,19 @@ HX711::HX711(hx711_conf_t *conf_hx711)
 }
 
 
-bool HX711::calibrate()
-{
-    _readData();
-    _delta = *_load;
-    if (_delta)
-    {
-        return true;
-    }
-    return false;
-}
-
-void HX711::tare(int times) {
+void HX711::tare() {
     double sum = 0; 
-	sum = read_average(times);
+	sum = read_average(TARETIMES);
 	offset = sum;
     ESP_LOGI(MODUL_HX711, "Offset set to : %f", offset);
 }
 
 
-void HX711::getLoad(uint64_t  times)
+void HX711::getLoad()
 {
     //float load = read_average(times) / scale;
     if(trys != 10){
-        *_load = (read_average(times)  - offset) / 2280.f;
+        *_load = (read_average(*read_times)  - offset) / _scale;
     }
     return ;
 }
@@ -87,11 +77,6 @@ void HX711::poweron()
     return;
 }
 
-void HX711::setCalibration(int cal)
-{
-    _delta = cal;
-    return;
-}
 
 void HX711::setGain(int gain)
 {
@@ -123,43 +108,43 @@ bool HX711::isReady(){
  */
 void HX711::_readData(void)
 {
-    uint32_t raw_data = 0;
+    uint8_t raw_data[3] = { 0 };
+    uint32_t data = 0x00 << 24;
     portMUX_TYPE mux = portMUX_INITIALIZER_UNLOCKED;
     wait_ready();
     portENTER_CRITICAL(&mux);
-    for (int i = 0; i < 24; i++)
+    for (int j = 2; j >= 0; j--){
+
+    for (int i = 0; i < 8; i++)
     {
-        ets_delay_us(1);
+        //ets_delay_us(1);
         gpio_set_level(_pdsck, HIGH);
         ets_delay_us(1);       
-        raw_data |= gpio_get_level(_dout) << (23 - i);
+        raw_data[j] |= gpio_get_level(_dout) << (7 - i);
         gpio_set_level(_pdsck, LOW);
+        ets_delay_us(1);
+    }
     }
 
     //set channel and gain for next read
     for (int i = 0; i < _gain; i++)
     {
-        ets_delay_us(1);
+        //ets_delay_us(1);
         gpio_set_level(_pdsck, HIGH);
         ets_delay_us(1);
         gpio_set_level(_pdsck, LOW);
+        ets_delay_us(1);
     }
     portEXIT_CRITICAL(&mux);
 
-    /*
-    The output 24 bits of data is in 2’s complement
-    format. When input differential signal goes out of
-    the 24 bit range, the output data will be saturated
-    at 800000h (MIN) or 7FFFFFh (MAX), until the
-    input signal comes back to the input range.
-    */
+    // combine data
+    data = 0x00 << 24
+         | raw_data[2] << 16
+         | raw_data[1] << 8 
+         | raw_data[0];
 
-    if (raw_data & 0x800000){
-        //raw_data |= 0xff0000;
-        raw_data |= 0xff00000;
-    }
-    ESP_LOGV(MODUL_HX711, "RAW_DATA: %d", raw_data);
-    _oload = ((int32_t)raw_data);
+    ESP_LOGV(MODUL_HX711, "DATA: %d", data);
+    _oload = ((int32_t)data);
     return;
 }
 
@@ -184,7 +169,6 @@ long HX711::read_average(uint64_t  times) {
 	for (uint64_t i = 0; i < times; i++) {
 		_readData();
         sum += _oload;
-		//ets_delay_us(1);
 	}
 	return (sum / times);
 }

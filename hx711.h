@@ -10,6 +10,9 @@ extern "C"
 #include <freertos/task.h>
 #include "driver/gpio.h"
 #include "esp_log.h"
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 0, 0)
+    #include <rom/ets_sys.h>
+#endif
 
 
 #define MODUL_HX711           "HX711"
@@ -44,7 +47,7 @@ class HX711 {
         void setGain(int gain);
         void standby();
         bool isReady();
-        void wait_ready(unsigned long delay_ms=1);
+        bool wait_ready(unsigned long delay_ms=1);
         HX711(hx711_conf_t *conf_hx711);
         ~HX711() { return; };
 
@@ -65,6 +68,7 @@ class HX711 {
         gpio_config_t dout_conf;
         double offset;
         int *read_times;
+        bool _error;
     };
 
 

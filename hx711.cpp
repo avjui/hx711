@@ -33,7 +33,7 @@ HX711::HX711(hx711_conf_t *conf_hx711)
     dout_conf.mode = GPIO_MODE_INPUT;
     dout_conf.pin_bit_mask = (1ULL << conf_hx711->pin_dout);
     dout_conf.pull_down_en = GPIO_PULLDOWN_DISABLE;
-    dout_conf.pull_up_en = GPIO_PULLUP_ENABLE;
+    dout_conf.pull_up_en = GPIO_PULLUP_DISABLE;
 
     gpio_config(&pdsck_conf);
     gpio_config(&dout_conf);
@@ -101,7 +101,7 @@ void HX711::standby()
 
 bool HX711::isReady()
 {
-    return !gpio_get_level(_dout);
+    return gpio_get_level(_dout);
 }
 /**
  * @brief read data from hx711
@@ -157,21 +157,23 @@ void HX711::_readData(void)
 bool HX711::wait_ready(unsigned long delay_ms)
 {
 
-    trys = 0;
     // Wait for the chip to become ready.
     // This is a blocking implementation and will
-    while (!isReady() || trys < 10)
-    {
-        ESP_LOGV(MODUL_HX711, "Waiting to be ready");
-        vTaskDelay(portTICK_PERIOD_MS);
-        trys++;
 
+    while (isReady() || trys < 10)
+    {
         if (trys >= 10)
         {
+            trys = 0;
             _error = true;
             return false;
         }
+        trys++;
+        // give some time to get ready
+        ESP_LOGV(MODUL_HX711, "Waiting to be ready");
+        vTaskDelay(10 / portTICK_PERIOD_MS);
     }
+    trys = 0;
     _error = false;
     return true;
 }

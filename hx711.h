@@ -41,14 +41,55 @@ typedef struct {
 
 class HX711 {
     public:
+        /**
+         * @brief Function to get the load value
+         * 
+         */
         void getLoad();
         void hxTask();
+
+        /**
+         * @brief Function to power on the hx711 controller
+         * 
+         */
         void poweron();
+
+        /**
+         * @brief Function to tare the cell load
+         * 
+         * @details In this function we will read the sensor for the number 'TIMETARES' to get the offset.
+         *          In the start of the function we will also read the load until 2 seconds to get a more 
+         *          accurate result. 
+         * 
+         */
         void tare();
+
+        /**
+         * @brief Set the gain for hx711
+         * 
+         * @param gain 
+         */
         void setGain(int gain);
+
+        /**
+         * @brief Function to bring the hx711 to standby mode
+         * 
+         */
         void standby();
+
+        /**
+         * @brief Function to get the ready status from hx711 to read values out
+         * 
+         * @return true 
+         * @return false 
+         */
         bool isReady();
         bool wait_ready(unsigned long delay_ms=1);
+        /**
+         * @brief Construct a new HX711 object
+         * 
+         * @param conf_hx711 
+         */
         HX711(hx711_conf_t *conf_hx711);
         ~HX711() { return; };
 

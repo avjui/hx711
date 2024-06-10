@@ -18,7 +18,7 @@ HX711::HX711(hx711_conf_t *conf_hx711)
     offset = conf_hx711->offset;
     _scale = conf_hx711->scale;
     _error = false;
-    
+
     ESP_LOGV(MODUL_HX711, "Pin PD_SCK: %d \t Pin DOUT: %d", _pdsck, _dout);
 
     // pdsck config
@@ -47,7 +47,17 @@ HX711::HX711(hx711_conf_t *conf_hx711)
 
 void HX711::tare()
 {
-    double sum = 0;
+    // warm up to be more accurate
+    uint64_t time_start = esp_timer_get_time() + 6000000;
+    while((uint64_t)esp_timer_get_time() <  time_start)
+    {
+        ESP_LOGI(MODUL_HX711, "Warmup hx711 for calibration!");
+        getLoad();
+        vTaskDelay(10 / portTICK_PERIOD_MS);
+    }
+
+    // lets tare
+    float sum = 0;
     sum = read_average(TARETIMES);
     offset = sum;
     ESP_LOGI(MODUL_HX711, "Offset set to : %f", offset);
@@ -55,10 +65,11 @@ void HX711::tare()
 
 void HX711::getLoad()
 {
+    float t = read_average(*read_times) - offset;
+    *_load = t / _scale;
 
-    *_load = (read_average(*read_times) - offset) / _scale;
 
-    if(_error)
+    if (_error)
     {
         *_load = -1;
     }
@@ -178,17 +189,68 @@ bool HX711::wait_ready(unsigned long delay_ms)
     return true;
 }
 
-long HX711::read_average(uint64_t times)
+float HX711::read_average(uint8_t times)
 {
-    float sum = 0.;
-
-    while (!_error)
+    // variabel init
+    for(int i=0; i < times; i++)
     {
-        for (uint64_t i = 0; i < times; i++)
+        _loadsamples[i] = 0.0;
+    }
+
+    float sum = 0.;
+    uint8_t _rmnumber = 0;
+    float high_data = 0.f;
+    float low_data = 0.f;
+
+
+    for (uint8_t i = 0; i <= times; i++)
+    {
+        _readData();
+        _loadsamples[i] = _oload;
+        //sum += _oload;
+    }
+    if (_error)
+    {
+        ESP_LOGE(MODUL_HX711, "Can not read data!!!");
+        return 0;
+    }
+    
+
+    // find highest value
+    for (uint8_t i = 0; i < times; i++)
+    {
+        if (_loadsamples[i] > high_data)
         {
-            _readData();
-            sum += _oload;
+            high_data = _loadsamples[i];
         }
     }
-    return (sum / times);
+
+    // find the lowest value
+    low_data = high_data;
+    for (uint8_t i = 0; i < times; i++)
+    {
+        if (_loadsamples[i] < low_data)
+        {
+            low_data = _loadsamples[i];
+        }
+    }
+
+    // summit it without the highest and lowest value
+    for (uint8_t i = 0; i < times; i++)
+    {
+        if ((_loadsamples[i] == low_data) || (_loadsamples[i] == high_data))
+        {
+            _rmnumber++;
+            continue;
+        }
+        sum += _loadsamples[i];
+    }
+
+    if ((sum / (times - _rmnumber)) > 0) {
+        ESP_LOGV(MODUL_HX711, " Sum average: %f", sum);
+        return sum/ (times - _rmnumber);
+    }
+    else {
+        return 0.0;
+    }
 }

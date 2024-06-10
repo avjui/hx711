@@ -75,7 +75,7 @@ void HX711::poweron()
     gpio_set_level(_pdsck, HIGH);
     ets_delay_us(80);
     gpio_set_level(_pdsck, LOW);
-    ets_delay_us(2);
+    ets_delay_us(WAIT_TIME);
     return;
 }
 
@@ -93,9 +93,9 @@ void HX711::setGain(int gain)
 void HX711::standby()
 {
     gpio_set_level(_pdsck, LOW);
-    ets_delay_us(1);
+    ets_delay_us(WAIT_TIME);
     gpio_set_level(_pdsck, HIGH);
-    ets_delay_us(1);
+    ets_delay_us(WAIT_TIME);
     return;
 }
 
@@ -122,10 +122,10 @@ void HX711::_readData(void)
             for (int i = 0; i < 8; i++)
             {
                 gpio_set_level(_pdsck, HIGH);
-                ets_delay_us(1);
+                ets_delay_us(WAIT_TIME);
                 raw_data[j] |= gpio_get_level(_dout) << (7 - i);
                 gpio_set_level(_pdsck, LOW);
-                ets_delay_us(1);
+                ets_delay_us(WAIT_TIME);
             }
         }
 
@@ -134,9 +134,9 @@ void HX711::_readData(void)
         {
             // ets_delay_us(1);
             gpio_set_level(_pdsck, HIGH);
-            ets_delay_us(1);
+            ets_delay_us(WAIT_TIME);
             gpio_set_level(_pdsck, LOW);
-            ets_delay_us(1);
+            ets_delay_us(WAIT_TIME);
         }
         portEXIT_CRITICAL(&mux);
 

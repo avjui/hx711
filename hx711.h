@@ -22,6 +22,7 @@ extern "C"
 #define SCALE           2200.f
 #define OFFSET          46709.0
 #define TARETIMES       20
+#define WAIT_TIME       20                             
 
 #define GAIN_128        1  // Channel A, gain factor 128
 #define GAIN_32         2  // Channel B, gain factor 32

@@ -154,7 +154,11 @@ void HX711::_readData(void)
         // combine data
         data = 0x00 << 24 | raw_data[2] << 16 | raw_data[1] << 8 | raw_data[0];
 
+#if ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(5, 0, 0)
+        ESP_LOGV(MODUL_HX711, "DATA: %u", data);
+#else
         ESP_LOGV(MODUL_HX711, "DATA: %lu", data);
+#endif
         _oload = ((int32_t)data);
         return;
     }

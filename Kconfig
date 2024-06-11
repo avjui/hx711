@@ -1,0 +1,63 @@
+# put here your custom config value
+menu "HX711 Configuration"
+    menu "Pin Configuration"
+    config HX711_PIN_DOUT
+        int "Data pin"
+        default 25
+        help
+        Data pin for hx711.
+    
+    config HX711_PIN_PDSCK
+        int "Clock pin"
+        default 18
+        help
+        Clock pin for hx711.
+    endmenu
+    
+    menu "Modul Configuration"
+        config HX711_SCALE
+            int "Scale factor" 
+            default 491
+            help
+            Scale factor for hx711 modul.
+
+        config HX711_TARETIME
+            int "Value reads for tare"
+            default 20
+            help
+            This is the number of value to read for tare.
+
+        config HX711_SAMPLES
+            int "Sample to take"
+            default 20
+            help
+            This is the number sample to get value.
+    
+        config HX711_WAIT_TIME
+            int "Time for pin toggeling"
+            default 20
+            help
+            This is the time between high and low toggeling in us.
+
+        choice
+            prompt "Choose gain for hx711"
+            default HX711_GAIN_128
+            config HX711_GAIN_32
+                bool "32"
+            config BHX711_GAIN_64
+                bool "64"
+            config HX711_GAIN_128
+                bool "128"
+            help
+            Set the gain value for hx711
+        endchoice
+
+        config HX711_GAIN
+            int
+            default 1
+            default 1 if 128
+            default 2 if 32
+            default 3 if 64
+            
+    endmenu
+endmenu

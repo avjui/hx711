@@ -38,7 +38,6 @@ typedef struct {
     int *read_times;
     int gain;
     float scale;
-    double offset;
 } hx711_conf_t;
 
 class HX711 {

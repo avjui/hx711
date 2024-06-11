@@ -15,7 +15,7 @@ HX711::HX711(hx711_conf_t *conf_hx711)
     _gain = conf_hx711->gain;
     _load = conf_hx711->load;
     _oload = 0.;
-    offset = conf_hx711->offset;
+    offset = OFFSET;
     _scale = conf_hx711->scale;
     _error = false;
 

@@ -84,7 +84,7 @@ void HX711::poweron()
     return;
 }
 
-void HX711::setGain(int gain)
+void HX711::setGain(hx711_gain gain)
 {
     _gain = gain;
     return;

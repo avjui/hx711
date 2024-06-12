@@ -23,21 +23,63 @@ extern "C"
 
 #define HIGH            1
 #define LOW             0
+
+/**
+ * \defgroup Defaults 
+ * 
+ * 
+ * @{ 
+ */
 #define SCALE           491.f 
 #define OFFSET          46709.0
 #define TARETIMES       20
-#define WAIT_TIME       20                             
-
-#define GAIN_128        1  // Channel A, gain factor 128
-#define GAIN_32         2  // Channel B, gain factor 32
-#define GAIN_64         3  // Channel A, gain factor 64
+#define WAIT_TIME       20
+/**@}*/
 
 
+
+/**
+ * @enum hx711_gain
+ * 
+ * @brief Enum for set gain to hx711 modul
+ * @var hx711_gain::GAIN_128
+ * gain factor 128 for channel A
+ * 
+ * @var hx711_gain::GAIN_64
+ * gain factor 64 for channel A
+ * 
+ * @var hx711_gain::GAIN_32
+ * gain factor 32 for channel B
+ * 
+ */
+typedef enum {
+    GAIN_128 = 1, 
+    GAIN_32 = 2,   
+    GAIN_64 = 3,   
+} hx711_gain;
+
+
+/**
+ * @struct hx711_conf_t
+ * @brief Struct for configuration
+ * 
+ * @var hx711_conf_t::pin_pdsck 
+ * assign clockpin
+ * @var hx711_conf_t::pin_dout 
+ * assign data out pin
+ * @var hx711_conf_t::read_times 
+ * set read times for average read
+ * @var hx711_conf_t::gain 
+ * set the gain
+ * @var hx711_conf_t::scale 
+ * set the scale factor
+ * 
+ */
 typedef struct {
     int pin_pdsck;
     int pin_dout;
     int read_times;
-    int gain;
+    hx711_gain gain;
     float scale;
 } hx711_conf_t;
 
@@ -45,7 +87,10 @@ class HX711 {
     public:
         
         /**
-         * @brief Construct a new HX711 object
+         * @brief Construct a new HX711 object 
+         * 
+         * @note  The constructer can be used without any parameter. If no parameter is
+         *        given it will use the standart pins set by :code:`menuconfig`.
          * 
          */
         HX711();
@@ -53,14 +98,19 @@ class HX711 {
         /**
          * @brief Construct a new HX711 object with config
          * 
-         * @param conf_hx711 
+         * @details If you want to setup the hx711 from programm you can use this function.
+         * 
+         * @param conf_hx711 Config struct for hx711 modul. See ::hx711_conf_t.
          */
         HX711(hx711_conf_t *conf_hx711);
         
         ~HX711() { return; };
         
         /**
-         * @brief Function to get the load value
+         * @brief Function to manuel trigger value read
+         * 
+         * @details This function can be used to trigger the read. It will be used when no
+         *          background task running. This function will trigger ::wait_ready.
          * 
          */
         void getLoad();
@@ -68,7 +118,7 @@ class HX711 {
         /**
          * @brief Get the scale factor value
          * 
-         * @return float 
+         * @return Return the scale factor
          */
         float getScale();
 
@@ -81,9 +131,12 @@ class HX711 {
         /**
          * @brief Set the gain for hx711
          * 
-         * @param gain 
+         * @details Here you can set the gain. There are 3 option aviable.
+         *          See ::hx711_gain for more information.
+         * 
+         * @param gain Set the gain 
          */
-        void setGain(int gain);
+        void setGain(hx711_gain gain);
 
         /**
          * @brief Function to bring the hx711 to standby mode
@@ -92,9 +145,12 @@ class HX711 {
         void standby();
 
         /**
-         * @brief Set the scale factor
+         * @brief Function to set the scale factor.
          * 
-         * @param scaleFactor 
+         * @details This factor will be used to get right value based on which load cell is
+         *          connected to the hx711
+         * 
+         * @param scaleFactor Set the scale factor
          */
         void setScale(float scaleFactor);
 
@@ -113,7 +169,7 @@ class HX711 {
         /**
          * @brief Function to tare the cell load
          * 
-         * @details In this function we will read the sensor for the number 'TIMETARES' to get the offset.
+         * @details In this function we will read the sensor for the number ::TIMETARES to get the offset.
          *          In the start of the function we will also read the load until 2 seconds to get a more 
          *          accurate result. 
          * 
@@ -123,9 +179,12 @@ class HX711 {
         /**
          * @brief Function to wait until hx711 is ready for shift out data
          * 
-         * @details It will wait until PDOUT go low or trys bigger then 10
+         * @details It will wait until PDOUT went LOW or it will be more the 10 trys.
+         *          In this case ::_error will get true and it will stop to read value
          * 
-         * @param delay_ms  time wait between next call
+         * @note In the case ::_error will get true maybe there is a problem with your wiring
+         * 
+         * @param delay_ms Time wait between next call
          * @return true 
          * @return false 
          */

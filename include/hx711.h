@@ -66,7 +66,7 @@ typedef enum {
  * assign clockpin
  * @var hx711_conf_t::pin_dout 
  * assign data out pin
- * @var hx711_conf_t::read_times 
+ * @var hx711_conf_t::samples
  * set read times for average read
  * @var hx711_conf_t::gain 
  * set the gain
@@ -77,7 +77,7 @@ typedef enum {
 typedef struct {
     int pin_pdsck;
     int pin_dout;
-    int read_times;
+    uint8_t samples;
     hx711_gain gain;
     float scale;
 } hx711_conf_t;
@@ -108,7 +108,7 @@ class HX711 {
         /**
          * @brief Get the the offset of the hx711 modul.
          * 
-         * @return float Return the offset value.
+         * @return Return the offset value.
          */
         float getOffset();
 

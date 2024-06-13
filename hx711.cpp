@@ -40,7 +40,7 @@ HX711::HX711(hx711_conf_t *conf_hx711)
 
     _pdsck = (gpio_num_t)conf_hx711->pin_pdsck;
     _dout = (gpio_num_t)conf_hx711->pin_dout;
-    read_times = conf_hx711->read_times;
+    read_times = conf_hx711->samples;
     _gain = conf_hx711->gain;
     _oload = 0.;
     offset = OFFSET;

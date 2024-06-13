@@ -1,0 +1,48 @@
+.. _hx711:
+
+HX711 Class
+=============
+
+Here we can find the documentation for the HX711 library
+
+HX711 public functions
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. doxygenclass:: HX711
+   :project: hx711
+   :members-only:
+   :undoc-members:
+
+HX711 private functions
+^^^^^^^^^^^^^^^^^^^^^^^^^
+.. note:: 
+   Only show for complete the documentation
+
+.. doxygenclass:: HX711
+   :project: hx711
+   :members-only:
+   :private-members:
+   :members: []
+
+HX711 gain enum
+^^^^^^^^^^^^^^^^^
+   Definition of the gain for hx711
+
+.. doxygenenum:: hx711_gain
+   :project: hx711
+
+HX711 config struct
+^^^^^^^^^^^^^^^^^^^^
+   Struct used to set the config for hx711 library
+
+.. doxygenstruct:: hx711_conf_t
+   :project: hx711
+
+HX711 defines
+^^^^^^^^^^^^^^^
+
+Here you can see the defaults defines
+
+.. doxygengroup:: Defaults
+   :project: hx711
+   :content-only:

@@ -26,7 +26,7 @@ check_function_exists (idf_component_register BUILD-IDF)
 
     # Source and header dir
     set(PROJECT_SOURCE_DIR "..")
-    set(PROJECT_INCLUDE_DIR "..")
+    set(PROJECT_INCLUDE_DIR "../include")
 
     set(SRC_FILES hx711)
 

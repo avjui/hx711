@@ -1,0 +1,75 @@
+# Copyright (C) 2024 renejuen
+# 
+# This file is part of hx711.
+# 
+# hx711 is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# hx711 is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with hx711.  If not, see <https://www.gnu.org/licenses/>.
+
+# The Docker image that will be used to build your app
+image: ubuntu:latest
+
+stages:
+  - test
+  - build
+  - deploy
+
+
+cache:
+  paths:
+    - ~/.cache/pip
+    - ~/.platformio/.cache
+
+# Functions that should be executed before the build script is run
+before_script:
+  - apt-get update
+  - apt-get install -y build-essential make gcc g++ cmake doxygen git tree python3 python3-pip curl python3-venv
+  - apt-get install -y python3-sphinx-rtd-theme
+  - apt-get install -y python3-breathe
+  - apt-get install -y python3-sphinx-sitemap
+  - curl -fsSL -o get-platformio.py https://raw.githubusercontent.com/platformio/platformio-core-installer/master/get-platformio.py
+  - python3 get-platformio.py
+  - mkdir -p /usr/local/bin
+  - ln -s ~/.platformio/penv/bin/platformio /usr/local/bin/platformio
+  - ln -s ~/.platformio/penv/bin/pio /usr/local/bin/pio
+
+ccpcheck:
+  stage: test
+  script:
+    - cd example
+    - platformio check --verbose --severity=high --fail-on-defect=high --skip-packages
+
+building:
+  stage: build
+  script:
+    - cd example
+    - platformio run
+
+pages:
+  stage: deploy
+  script:
+    - cd doc
+    - cmake .
+    - make doc
+    - cd ..
+    - mkdir public
+    - mv doc/sphinx/html/* public/
+    - tree public
+  artifacts:
+    paths:
+      # The folder that contains the files to be exposed at the Page URL
+      -  public
+  rules:
+    # This ensures that only pushes to the default branch will trigger
+    # a pages deploy
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+

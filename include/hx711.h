@@ -10,7 +10,6 @@ extern "C"
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 #include "driver/gpio.h"
-#include <esp_timer.h>
 #include "esp_log.h"
 #include "sdkconfig.h"
 
@@ -32,7 +31,7 @@ extern "C"
  */
 #define SCALE           491.f 
 #define OFFSET          46709.0
-#define TARETIMES       20
+#define TARESAMPLES       20
 #define WAIT_TIME       20
 /**@}*/
 
@@ -90,7 +89,7 @@ class HX711 {
          * @brief Construct a new HX711 object 
          * 
          * @note  The constructer can be used without any parameter. If no parameter is
-         *        given it will use the standart pins set by :code:`menuconfig`.
+         *        given it will use the standart pins set by `menuconfig`.
          * 
          */
         HX711();
@@ -107,13 +106,11 @@ class HX711 {
         ~HX711() { return; };
         
         /**
-         * @brief Function to manuel trigger value read
+         * @brief Get the the offset of the hx711 modul.
          * 
-         * @details This function can be used to trigger the read. It will be used when no
-         *          background task running. This function will trigger ::wait_ready.
-         * 
+         * @return float Return the offset value.
          */
-        void getLoad();
+        float getOffset();
 
         /**
          * @brief Get the scale factor value
@@ -139,10 +136,11 @@ class HX711 {
         void setGain(hx711_gain gain);
 
         /**
-         * @brief Function to bring the hx711 to standby mode
+         * @brief Set the offset for hx711 modul
          * 
+         * @param newoffset Offset value
          */
-        void standby();
+        void setOffset(float newoffset);
 
         /**
          * @brief Function to set the scale factor.
@@ -153,6 +151,12 @@ class HX711 {
          * @param scaleFactor Set the scale factor
          */
         void setScale(float scaleFactor);
+
+        /**
+         * @brief Function to bring the hx711 to standby mode
+         * 
+         */
+        void standby();
 
         /**
          * @brief Start background task
@@ -169,7 +173,7 @@ class HX711 {
         /**
          * @brief Function to tare the cell load
          * 
-         * @details In this function we will read the sensor for the number ::TIMETARES to get the offset.
+         * @details In this function we will read the sensor for the number ::TARESAMPLES to get the offset.
          *          In the start of the function we will also read the load until 2 seconds to get a more 
          *          accurate result. 
          * 
@@ -177,12 +181,25 @@ class HX711 {
         void tare();
 
         /**
+         * @brief Function to manuel trigger value read
+         * 
+         * @details This function can be used to trigger the read. It will be used when no
+         *          background task running. This function will trigger ::wait_ready.
+         * 
+         */
+        void update();
+
+        /**
          * @brief Function to wait until hx711 is ready for shift out data
          * 
          * @details It will wait until PDOUT went LOW or it will be more the 10 trys.
-         *          In this case ::_error will get true and it will stop to read value
+         *          In this case ::_error will get true and it will stop to read value.
+         *          In the case ::_error will get true maybe there is a problem with your wiring.
          * 
-         * @note In the case ::_error will get true maybe there is a problem with your wiring
+         * @note Note we read the value for 10 times to get an average to have a more accurate result.
+         *       When the hx711 modul is set to 10Mhz we get all second one result 10MHz/10.
+         *       After some testing it resuslts that it looks like the modul i testet has about 5Mhz.
+         *       So we get a result every 2 seconds. 
          * 
          * @param delay_ms Time wait between next call
          * @return true 
@@ -212,7 +229,7 @@ class HX711 {
         /**
          * @brief Helper function to get the average of load.
          * 
-         * @details This function will always be called when we read the value. It will take samples of 'n' times 
+         * @details This function will always be called when we read the value. It will take samples of `n` times 
          *          to get a more accurate result. It will also remove the highest and lowest value.
          * 
          * @param times  number of reading value
@@ -221,6 +238,7 @@ class HX711 {
         float read_average(uint8_t times);
 
     private:
+
         uint8_t trys;
         gpio_num_t _pdsck;
         gpio_num_t _dout;
@@ -233,7 +251,7 @@ class HX711 {
         float offset;
         int read_times;
         bool _error;
-        float _loadsamples[TARETIMES];
+        float _loadsamples[TARESAMPLES];
         bool taskrun;
     };
 

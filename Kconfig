@@ -9,7 +9,7 @@ menu "HX711 Configuration"
     
     config HX711_PIN_PDSCK
         int "Clock pin"
-        default 18
+        default 26
         help
         Clock pin for hx711.
     endmenu
@@ -29,9 +29,9 @@ menu "HX711 Configuration"
 
         config HX711_SAMPLES
             int "Sample to take"
-            default 20
+            default 10
             help
-            This is the number sample to get value.
+            This is the number sample to get value. Note this will impact the update of cellloud.
     
         config HX711_WAIT_TIME
             int "Time for pin toggeling"

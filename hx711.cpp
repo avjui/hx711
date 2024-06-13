@@ -18,6 +18,7 @@ HX711::HX711()
     _scale = CONFIG_HX711_SCALE;
     _error = false;
     trys = 0;
+    cellload = 0.00;
 
     // initial the pin configurtion
     init();
@@ -46,6 +47,7 @@ HX711::HX711(hx711_conf_t *conf_hx711)
     _scale = conf_hx711->scale;
     _error = false;
     trys = 0;
+    cellload = 0.00;
 
     // initial the pin configurtion
     init();
@@ -57,16 +59,9 @@ HX711::HX711(hx711_conf_t *conf_hx711)
     return;
 }
 
-void HX711::getLoad()
+float HX711::getOffset()
 {
-    float t = read_average(read_times) - offset;
-    cellload = t / _scale;
-
-    if (_error)
-    {
-        cellload = -1;
-    }
-    return;
+    return offset;
 }
 
 float HX711::getScale()
@@ -90,12 +85,9 @@ void HX711::setGain(hx711_gain gain)
     return;
 }
 
-void HX711::standby()
+void HX711::setOffset(float newoffset)
 {
-    gpio_set_level(_pdsck, LOW);
-    ets_delay_us(WAIT_TIME);
-    gpio_set_level(_pdsck, HIGH);
-    ets_delay_us(WAIT_TIME);
+    offset = newoffset;
     return;
 }
 
@@ -105,10 +97,19 @@ void HX711::setScale(float scaleFactor)
     return;
 }
 
+void HX711::standby()
+{
+    gpio_set_level(_pdsck, LOW);
+    ets_delay_us(WAIT_TIME);
+    gpio_set_level(_pdsck, HIGH);
+    ets_delay_us(WAIT_TIME);
+    return;
+}
+
 void HX711::startTask()
 {
     taskrun = true;
-    xTaskCreate(hx711Task, "HX711 -Thread", 2048, this, 5, NULL);
+    xTaskCreate(hx711Task, "HX711 - Thread", 2048, this, 10, NULL);
 }
 
 void HX711::stopTask()
@@ -118,20 +119,38 @@ void HX711::stopTask()
 
 void HX711::tare()
 {
-    // warm up to be more accurate
-    uint64_t time_start = esp_timer_get_time() + 6000000;
-    while ((uint64_t)esp_timer_get_time() < time_start)
-    {
-        ESP_LOGI(MODUL_HX711, "Warmup hx711 for calibration!");
-        getLoad();
-        vTaskDelay(10 / portTICK_PERIOD_MS);
-    }
+    /* Warm up to be more accurate. Set read_times to 10 so we
+    *  have a warmup time between 3 and 6 seconds.)
+    */
 
-    // lets tare
+    int warmup = 3;
     float sum = 0;
-    sum = read_average(TARETIMES);
+    int temp_read_times = read_times;
+    read_times = 10;
+    ESP_LOGI(MODUL_HX711, "Warmup hx711 for calibration!");
+    while(warmup > 0)
+    {
+        update();
+        warmup--;
+        vTaskDelay(100/portTICK_PERIOD_MS);
+    }
+    read_times = temp_read_times;
+
+    // lets tare and set the offset
+    sum = read_average(TARESAMPLES);
     offset = sum;
     ESP_LOGI(MODUL_HX711, "Offset set to : %f", offset);
+}
+
+void HX711::update()
+{
+    float t = read_average(read_times) - offset;
+    cellload = t / _scale;
+    if (_error)
+    {
+        cellload = -1;
+    }
+    return;
 }
 
 bool HX711::wait_ready(unsigned long delay_ms)
@@ -140,9 +159,10 @@ bool HX711::wait_ready(unsigned long delay_ms)
     // Wait for the chip to become ready.
     // This is a blocking implementation and will
 
-    while (gpio_get_level(_dout) || trys < 10)
+    gpio_set_level(_pdsck, LOW);
+    while (gpio_get_level(_dout) || trys < 30)
     {
-        if (trys >= 10)
+        if (trys >= 30)
         {
             trys = 0;
             _error = true;
@@ -160,17 +180,21 @@ bool HX711::wait_ready(unsigned long delay_ms)
 
 void HX711::hx711Task(void *pvParameter)
 {
-    HX711 *thisPtr = (HX711 *) pvParameter;
+    HX711 *thisPtr = (HX711 *)pvParameter;
 #ifdef DEBUG_HX711
     esp_log_level_set(MODUL_HX711, ESP_LOG_VERBOSE);
 #else
     esp_log_level_set(MODUL_HX711, ESP_LOG_INFO);
 #endif
     ESP_LOGI(MODUL_HX711, "########## Starting HX711 Task ##########");
-    while(thisPtr->taskrun) {
-        thisPtr->getLoad();
-        vTaskDelay(500 / portTICK_PERIOD_MS);
+    while (thisPtr->taskrun)
+    {
+        thisPtr->update();
+        vTaskDelay(100 / portTICK_PERIOD_MS);
     }
+    // When we are here we stopped the task.
+    ESP_LOGI(MODUL_HX711, "########## Stoping HX711 Task ##########");
+
 }
 
 void HX711::init()
@@ -178,7 +202,7 @@ void HX711::init()
     // pdsck config
     pdsck_conf.intr_type = GPIO_INTR_DISABLE;
     pdsck_conf.mode = GPIO_MODE_OUTPUT;
-    pdsck_conf.pin_bit_mask = (1ULL << _pdsck );
+    pdsck_conf.pin_bit_mask = (1ULL << _pdsck);
     pdsck_conf.pull_down_en = GPIO_PULLDOWN_DISABLE;
     pdsck_conf.pull_up_en = GPIO_PULLUP_ENABLE;
 
@@ -210,12 +234,11 @@ void HX711::_readData(void)
             {
                 gpio_set_level(_pdsck, HIGH);
                 ets_delay_us(WAIT_TIME);
-                raw_data[j] |= gpio_get_level(_dout) << (7 - i);
                 gpio_set_level(_pdsck, LOW);
+                raw_data[j] |= gpio_get_level(_dout) << (7 - i);
                 ets_delay_us(WAIT_TIME);
             }
         }
-
         // set channel and gain for next read
         for (int i = 0; i < _gain; i++)
         {
@@ -270,25 +293,28 @@ float HX711::read_average(uint8_t times)
         return 0;
     }
 
-    // find highest value
-    for (uint8_t i = 0; i < times; i++)
+    //only used when we have 3 and more samples
+    if (read_times > 2)
     {
-        if (_loadsamples[i] > high_data)
+        // find highest value
+        for (uint8_t i = 0; i < times; i++)
         {
-            high_data = _loadsamples[i];
+            if (_loadsamples[i] > high_data)
+            {
+                high_data = _loadsamples[i];
+            }
+        }
+
+        // find the lowest value
+        low_data = high_data;
+        for (uint8_t i = 0; i < times; i++)
+        {
+            if (_loadsamples[i] < low_data)
+            {
+                low_data = _loadsamples[i];
+            }
         }
     }
-
-    // find the lowest value
-    low_data = high_data;
-    for (uint8_t i = 0; i < times; i++)
-    {
-        if (_loadsamples[i] < low_data)
-        {
-            low_data = _loadsamples[i];
-        }
-    }
-
     // summit it without the highest and lowest value
     for (uint8_t i = 0; i < times; i++)
     {

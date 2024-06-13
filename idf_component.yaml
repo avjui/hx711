@@ -1,4 +1,6 @@
 name: hx711
+version: "0.9.0"
+license: "GPL3"
 description: Library for hx711 cell load modul writen for esp-idf framework.
 url: http://gitlab.renejuen.at/hx711
 dependencies:

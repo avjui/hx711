@@ -10,20 +10,13 @@
 
 ## About <a name = "about"></a>
 
-This library is for the hx711 modul to read cell load.
-It is build for esp-idf framework! 
+This library is for the hx711 modul to read weight load.
+It is build for esp-idf framework and written in C++! 
 
 ## Getting Started <a name = "getting_started"></a>
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#deployment) for notes on how to deploy the project on a live system.
 
-### Prerequisites
-
-What things you need to install the software and how to install them.
-
-```
-Give examples
-```
 
 ### Installing
 
@@ -47,4 +40,34 @@ End with an example of getting some data out of the system or using it for a lit
 
 Add notes about how to use the system.
 
+```
+#include <hx711.h>
+```
+
+After the we declare it
+
+```
+HX711 load();
+```
+
+Then we can tare the weight scale
+
+```
+load.tare()
+```
+
+Then we can start the background task and read the value
+
+```
+load.startTask();
+for(;;) 
+{
+    ESP_LOGI("MAIN", "Weight : %.2f g", load.getLoad());
+    vTaskDelay(2000/portTICK_PERIOD_MS);
+}
+
+```
+
 ## Todo <a name = "todo"></a>
+
+ - add function to set scale factor

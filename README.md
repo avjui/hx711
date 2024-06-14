@@ -39,6 +39,7 @@ dependencies:
   hx711:
     git: https://gitlab.renejuen.at/av_jui/hx711.git
 ```
+:file_folder: The file was also aviable in the [example folder main dirctory](./example/main/).
 
 After this installation is complete and you can build your project with th hx711 library.
 

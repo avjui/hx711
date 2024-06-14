@@ -1,0 +1,5 @@
+dependencies:
+  idf: ">=4.4"
+
+  hx711:
+    git: https://gitlab.renejuen.at/av_jui/hx711.git

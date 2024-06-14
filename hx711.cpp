@@ -158,24 +158,27 @@ bool HX711::wait_ready(unsigned long delay_ms)
 
     // Wait for the chip to become ready.
     // This is a blocking implementation and will
-
     gpio_set_level(_pdsck, LOW);
-    while (gpio_get_level(_dout) || trys < 30)
+    while (trys <= 30)
     {
-        if (trys >= 30)
+        if(!gpio_get_level(_dout))
         {
             trys = 0;
+            _error = false;
+            return true;
+        }
+        if (trys >= 30)
+        {
             _error = true;
             return false;
         }
         trys++;
         // give some time to get ready
         ESP_LOGV(MODUL_HX711, "Waiting to be ready");
-        vTaskDelay(10 / portTICK_PERIOD_MS);
+        vTaskDelay(20 / portTICK_PERIOD_MS);
     }
-    trys = 0;
-    _error = false;
-    return true;
+    _error = true;
+    return false;
 }
 
 void HX711::hx711Task(void *pvParameter)

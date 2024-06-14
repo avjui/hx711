@@ -35,7 +35,7 @@ menu "HX711 Configuration"
     
         config HX711_WAIT_TIME
             int "Time for pin toggeling"
-            default 20
+            default 2
             help
             This is the time between high and low toggeling in us.
 

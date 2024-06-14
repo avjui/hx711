@@ -6,7 +6,7 @@
 - [Getting Started](#getting_started)
 - [Usage](#usage)
 - [TODO](#todo)
-- [Contributing](../CONTRIBUTING.md)
+- [License](./LICENSE)
 
 ## About <a name = "about"></a>
 
@@ -15,26 +15,47 @@ It is build for esp-idf framework and written in C++!
 
 ## Getting Started <a name = "getting_started"></a>
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#deployment) for notes on how to deploy the project on a live system.
+Goal of this project is to provide an easy to use library for the hx711 modul written in C++! 
+
+The main featers are:
+ - Easy to use
+ - Reading value from hx711 modul in background task
+ - Create average value from `x` samples to get more accurate results
+ - Remove highest and lowest value to get more accurate results
 
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running.
+#### ESP-IDF
 
-Say what the step will be
+The library contains a `idf_compent.yml` file. So you can install it with the esp-idf packagemanager to be aviable in your project.
 
-```
-Give the example
-```
-
-And repeat
+To integerate it to your project create a file named `idf_compent.yml` and put following lines in it.
 
 ```
-until finished
+dependencies:
+  idf: ">=4.4"
+
+  hx711:
+    git: https://gitlab.renejuen.at/av_jui/hx711.git
 ```
 
-End with an example of getting some data out of the system or using it for a little demo.
+After this installation is complete and you can build your project with th hx711 library.
+
+##### Platformio
+
+To use this library in platformio you can add `lib_deps` to your configuration file `platformio.ini`
+
+```
+lib_deps = 
+    git+https://gitlab.renejuen.at/av_jui/hx711
+```
+:warning: Because platformio not regiester the `Kconfig` by him self you also must put following lines to your `CMakeLists.txt` in the root directory. 
+
+```
+get_filename_component(configName "${CMAKE_BINARY_DIR}" NAME)
+list(APPEND kconfigs "${CMAKE_SOURCE_DIR}/.pio/libdeps/${configName}/hx711/Kconfig")
+```
 
 ## Usage <a name = "usage"></a>
 
@@ -67,6 +88,8 @@ for(;;)
 }
 
 ```
+
+You can find an example in the [example folder](./example)
 
 ## Todo <a name = "todo"></a>
 

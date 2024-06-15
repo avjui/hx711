@@ -1,10 +1,10 @@
 Quickstart
 **********
 
-| Here you can find a short example to use the library in your project. 
+| Here you can find a short example how to use the library in your project. 
 | You can also find an example in `example`_ folder.
 
-.. _example: https://gitlab.renejuen.at/av_jui/hx711/-/tree/master/example
+.. _example: https://github.com/avjui/hx711/tree/master/example
 
 Initialization and setup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^

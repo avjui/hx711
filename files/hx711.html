@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HX711 Class &mdash; HX711  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="License" href="license.html" />
+    <link rel="prev" title="Quickstart" href="quickstart.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            HX711
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.9
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Welcome to HX711’s documentation!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">HX711 Class</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#hx711-public-functions">HX711 public functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX7115HX711Ev"><code class="docutils literal notranslate"><span class="pre">HX711::HX711()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX7115HX711EP12hx711_conf_t"><code class="docutils literal notranslate"><span class="pre">HX711::HX711()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX711D0Ev"><code class="docutils literal notranslate"><span class="pre">HX711::~HX711()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX7119getOffsetEv"><code class="docutils literal notranslate"><span class="pre">HX711::getOffset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX7118getScaleEv"><code class="docutils literal notranslate"><span class="pre">HX711::getScale()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX7117poweronEv"><code class="docutils literal notranslate"><span class="pre">HX711::poweron()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX7117setGainE10hx711_gain"><code class="docutils literal notranslate"><span class="pre">HX711::setGain()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX7119setOffsetEf"><code class="docutils literal notranslate"><span class="pre">HX711::setOffset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX7118setScaleEf"><code class="docutils literal notranslate"><span class="pre">HX711::setScale()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX7117standbyEv"><code class="docutils literal notranslate"><span class="pre">HX711::standby()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX7119startTaskEv"><code class="docutils literal notranslate"><span class="pre">HX711::startTask()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX7118stopTaskEv"><code class="docutils literal notranslate"><span class="pre">HX711::stopTask()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX7114tareEv"><code class="docutils literal notranslate"><span class="pre">HX711::tare()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX7116updateEv"><code class="docutils literal notranslate"><span class="pre">HX711::update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX71110wait_readyEm"><code class="docutils literal notranslate"><span class="pre">HX711::wait_ready()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX7118cellloadE"><code class="docutils literal notranslate"><span class="pre">HX711::cellload</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#hx711-private-functions">HX711 private functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX7114initEv"><code class="docutils literal notranslate"><span class="pre">HX711::init()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX7119_readDataEv"><code class="docutils literal notranslate"><span class="pre">HX711::_readData()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX71112read_averageE7uint8_t"><code class="docutils literal notranslate"><span class="pre">HX711::read_average()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX7114trysE"><code class="docutils literal notranslate"><span class="pre">HX711::trys</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX7116_pdsckE"><code class="docutils literal notranslate"><span class="pre">HX711::_pdsck</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX7115_doutE"><code class="docutils literal notranslate"><span class="pre">HX711::_dout</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX7115_gainE"><code class="docutils literal notranslate"><span class="pre">HX711::_gain</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX7116_oloadE"><code class="docutils literal notranslate"><span class="pre">HX711::_oload</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX7116_scaleE"><code class="docutils literal notranslate"><span class="pre">HX711::_scale</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX7118raw_dataE"><code class="docutils literal notranslate"><span class="pre">HX711::raw_data</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX71110pdsck_confE"><code class="docutils literal notranslate"><span class="pre">HX711::pdsck_conf</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX7119dout_confE"><code class="docutils literal notranslate"><span class="pre">HX711::dout_conf</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX7116offsetE"><code class="docutils literal notranslate"><span class="pre">HX711::offset</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX71110read_timesE"><code class="docutils literal notranslate"><span class="pre">HX711::read_times</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX7116_errorE"><code class="docutils literal notranslate"><span class="pre">HX711::_error</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX71112_loadsamplesE"><code class="docutils literal notranslate"><span class="pre">HX711::_loadsamples</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX7117taskrunE"><code class="docutils literal notranslate"><span class="pre">HX711::taskrun</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N5HX7119hx711TaskEPv"><code class="docutils literal notranslate"><span class="pre">HX711::hx711Task()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#hx711-gain-enum">HX711 gain enum</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv410hx711_gain"><code class="docutils literal notranslate"><span class="pre">hx711_gain</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N10hx711_gain8GAIN_128E"><code class="docutils literal notranslate"><span class="pre">hx711_gain::GAIN_128</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N10hx711_gain7GAIN_32E"><code class="docutils literal notranslate"><span class="pre">hx711_gain::GAIN_32</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N10hx711_gain7GAIN_64E"><code class="docutils literal notranslate"><span class="pre">hx711_gain::GAIN_64</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#hx711-config-struct">HX711 config struct</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv412hx711_conf_t"><code class="docutils literal notranslate"><span class="pre">hx711_conf_t</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N12hx711_conf_t9pin_pdsckE"><code class="docutils literal notranslate"><span class="pre">hx711_conf_t::pin_pdsck</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N12hx711_conf_t8pin_doutE"><code class="docutils literal notranslate"><span class="pre">hx711_conf_t::pin_dout</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N12hx711_conf_t7samplesE"><code class="docutils literal notranslate"><span class="pre">hx711_conf_t::samples</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N12hx711_conf_t4gainE"><code class="docutils literal notranslate"><span class="pre">hx711_conf_t::gain</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N12hx711_conf_t5scaleE"><code class="docutils literal notranslate"><span class="pre">hx711_conf_t::scale</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#hx711-defines">HX711 defines</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">HX711</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">HX711 Class</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/files/hx711.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="hx711-class">
+<span id="hx711"></span><h1>HX711 Class<a class="headerlink" href="#hx711-class" title="Link to this heading"></a></h1>
+<p>Here we can find the documentation for the HX711 library</p>
+<section id="hx711-public-functions">
+<h2>HX711 public functions<a class="headerlink" href="#hx711-public-functions" title="Link to this heading"></a></h2>
+<div class="breathe-sectiondef docutils container">
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX7115HX711Ev">
+<span id="_CPPv3N5HX7115HX711Ev"></span><span id="_CPPv2N5HX7115HX711Ev"></span><span id="HX711::HX711"></span><span class="target" id="classHX711_1a3021b412fd3584f9dabdb2d3db6e4dad"></span><span class="sig-name descname"><span class="n"><span class="pre">HX711</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5HX7115HX711Ev" title="Link to this definition"></a><br /></dt>
+<dd><p>Construct a new HX711 object. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The constructer can be used without any parameter. If no parameter is given it will use the standart pins set by <code class="docutils literal notranslate"><span class="pre">menuconfig</span></code>. </p>
+</div>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX7115HX711EP12hx711_conf_t">
+<span id="_CPPv3N5HX7115HX711EP12hx711_conf_t"></span><span id="_CPPv2N5HX7115HX711EP12hx711_conf_t"></span><span id="HX711::HX711__hx711_conf_tP"></span><span class="target" id="classHX711_1aa46e2771b9acdaa902164070e1798425"></span><span class="sig-name descname"><span class="n"><span class="pre">HX711</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412hx711_conf_t" title="hx711_conf_t"><span class="n"><span class="pre">hx711_conf_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">conf_hx711</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5HX7115HX711EP12hx711_conf_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Construct a new HX711 object with config. </p>
+<p>If you want to setup the hx711 from programm you can use this function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>conf_hx711</strong> – Config struct for hx711 modul. See <a class="reference internal" href="#structhx711__conf__t"><span class="std std-ref">hx711_conf_t</span></a>. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX711D0Ev">
+<span id="_CPPv3N5HX711D0Ev"></span><span id="_CPPv2N5HX711D0Ev"></span><span id="HX711::~HX711"></span><span class="target" id="classHX711_1a6bac7bc5fbbc4f119de91953e6b88690"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">~HX711</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5HX711D0Ev" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX7119getOffsetEv">
+<span id="_CPPv3N5HX7119getOffsetEv"></span><span id="_CPPv2N5HX7119getOffsetEv"></span><span id="HX711::getOffset"></span><span class="target" id="classHX711_1a2e1dadc536c09bccb64b976a41908328"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getOffset</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5HX7119getOffsetEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Get the the offset of the hx711 modul. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Return the offset value. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX7118getScaleEv">
+<span id="_CPPv3N5HX7118getScaleEv"></span><span id="_CPPv2N5HX7118getScaleEv"></span><span id="HX711::getScale"></span><span class="target" id="classHX711_1a6d10b688cf685f51bfe8bcd2a6b2a3da"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getScale</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5HX7118getScaleEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Get the scale factor value. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Return the scale factor </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX7117poweronEv">
+<span id="_CPPv3N5HX7117poweronEv"></span><span id="_CPPv2N5HX7117poweronEv"></span><span id="HX711::poweron"></span><span class="target" id="classHX711_1a1fbea44e75bc06d965dbac6e4972155a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">poweron</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5HX7117poweronEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Function to power on the hx711 controller. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX7117setGainE10hx711_gain">
+<span id="_CPPv3N5HX7117setGainE10hx711_gain"></span><span id="_CPPv2N5HX7117setGainE10hx711_gain"></span><span id="HX711::setGain__hx711_gain"></span><span class="target" id="classHX711_1a2716b1468ea23cd324869b63d8eb0032"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setGain</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv410hx711_gain" title="hx711_gain"><span class="n"><span class="pre">hx711_gain</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">gain</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5HX7117setGainE10hx711_gain" title="Link to this definition"></a><br /></dt>
+<dd><p>Set the gain for hx711. </p>
+<p>Here you can set the gain. There are 3 option aviable. See <a class="reference internal" href="#hx711_8h_1a807b05c9730fdb0e79190d8fac16b938"><span class="std std-ref">hx711_gain</span></a> for more information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>gain</strong> – Set the gain </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX7119setOffsetEf">
+<span id="_CPPv3N5HX7119setOffsetEf"></span><span id="_CPPv2N5HX7119setOffsetEf"></span><span id="HX711::setOffset__float"></span><span class="target" id="classHX711_1a5dee08136f9310d8026e30112e34d4fb"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setOffset</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">newoffset</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5HX7119setOffsetEf" title="Link to this definition"></a><br /></dt>
+<dd><p>Set the offset for hx711 modul. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>newoffset</strong> – Offset value </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX7118setScaleEf">
+<span id="_CPPv3N5HX7118setScaleEf"></span><span id="_CPPv2N5HX7118setScaleEf"></span><span id="HX711::setScale__float"></span><span class="target" id="classHX711_1a01fd7edfae0ba88adfc9c66ae4c6b793"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setScale</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">scaleFactor</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5HX7118setScaleEf" title="Link to this definition"></a><br /></dt>
+<dd><p>Function to set the scale factor. </p>
+<p>This factor will be used to get right value based on which load cell is connected to the hx711</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>scaleFactor</strong> – Set the scale factor </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX7117standbyEv">
+<span id="_CPPv3N5HX7117standbyEv"></span><span id="_CPPv2N5HX7117standbyEv"></span><span id="HX711::standby"></span><span class="target" id="classHX711_1a7f861c6cec86d0f4df2df6b664499cdc"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">standby</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5HX7117standbyEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Function to bring the hx711 to standby mode. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX7119startTaskEv">
+<span id="_CPPv3N5HX7119startTaskEv"></span><span id="_CPPv2N5HX7119startTaskEv"></span><span id="HX711::startTask"></span><span class="target" id="classHX711_1a5fac15da94084ce87a2de31b17eb7aa8"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">startTask</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5HX7119startTaskEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Start background task. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX7118stopTaskEv">
+<span id="_CPPv3N5HX7118stopTaskEv"></span><span id="_CPPv2N5HX7118stopTaskEv"></span><span id="HX711::stopTask"></span><span class="target" id="classHX711_1a636c0870af0ca3ab066cf63f0323c74d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stopTask</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5HX7118stopTaskEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Stop background task. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX7114tareEv">
+<span id="_CPPv3N5HX7114tareEv"></span><span id="_CPPv2N5HX7114tareEv"></span><span id="HX711::tare"></span><span class="target" id="classHX711_1ac712a0d2a329a12c332da822987bd894"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tare</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5HX7114tareEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Function to tare the cell load. </p>
+<p>In this function we will read the sensor for the number <a class="reference internal" href="#group__Defaults_1ga2372c1ebc2fda891a00b5642694f9df3"><span class="std std-ref">TARESAMPLES</span></a> to get the offset. In the start of the function we will also read the load until 2 seconds to get a more accurate result. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX7116updateEv">
+<span id="_CPPv3N5HX7116updateEv"></span><span id="_CPPv2N5HX7116updateEv"></span><span id="HX711::update"></span><span class="target" id="classHX711_1a24b0976af4dcbe787386473425a4b806"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5HX7116updateEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Function to manuel trigger value read. </p>
+<p>This function can be used to trigger the read. It will be used when no background task running. This function will trigger ::wait_ready. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX71110wait_readyEm">
+<span id="_CPPv3N5HX71110wait_readyEm"></span><span id="_CPPv2N5HX71110wait_readyEm"></span><span id="HX711::wait_ready__unsigned-l"></span><span class="target" id="classHX711_1ad2180bc0b3c37de035851f495acf25ea"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">wait_ready</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">delay_ms</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5HX71110wait_readyEm" title="Link to this definition"></a><br /></dt>
+<dd><p>Function to wait until hx711 is ready for shift out data. </p>
+<p>It will wait until PDOUT went LOW or it will be more the 10 trys. In this case ::_error will get true and it will stop to read value. In the case ::_error will get true maybe there is a problem with your wiring.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note we read the value for 10 times to get an average to have a more accurate result. When the hx711 modul is set to 10Mhz we get all second one result 10MHz/10. After some testing it resuslts that it looks like the modul i testet has about 5Mhz. So we get a result every 2 seconds.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>delay_ms</strong> – Time wait between next call </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>true </p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>false </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX7118cellloadE">
+<span id="_CPPv3N5HX7118cellloadE"></span><span id="_CPPv2N5HX7118cellloadE"></span><span id="HX711::cellload__float"></span><span class="target" id="classHX711_1a6c75e195d1cfe803d18f5f5c715d0081"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cellload</span></span></span><a class="headerlink" href="#_CPPv4N5HX7118cellloadE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</section>
+<section id="hx711-private-functions">
+<h2>HX711 private functions<a class="headerlink" href="#hx711-private-functions" title="Link to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Only show for complete the documentation</p>
+</div>
+<div class="breathe-sectiondef docutils container">
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX7114initEv">
+<span id="_CPPv3N5HX7114initEv"></span><span id="_CPPv2N5HX7114initEv"></span><span id="HX711::init"></span><span class="target" id="classHX711_1a29d61fadcc362c2c26e8ec125766b807"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">init</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5HX7114initEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX7119_readDataEv">
+<span id="_CPPv3N5HX7119_readDataEv"></span><span id="_CPPv2N5HX7119_readDataEv"></span><span id="HX711::_readData"></span><span class="target" id="classHX711_1ad7e7e7e305d2be3248ca48376f46b2c8"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">_readData</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5HX7119_readDataEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Function to shift out the value from hx711 modul. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In this function we disable all interrupts to for shifting </p>
+</div>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX71112read_averageE7uint8_t">
+<span id="_CPPv3N5HX71112read_averageE7uint8_t"></span><span id="_CPPv2N5HX71112read_averageE7uint8_t"></span><span id="HX711::read_average__uint8_t"></span><span class="target" id="classHX711_1a0f8c18fde89e22bfa250180caf7c0c92"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_average</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">times</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5HX71112read_averageE7uint8_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Helper function to get the average of load. </p>
+<p>This function will always be called when we read the value. It will take samples of <code class="docutils literal notranslate"><span class="pre">n</span></code> times to get a more accurate result. It will also remove the highest and lowest value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>times</strong> – number of reading value </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>float return the average sum of readings </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX7114trysE">
+<span id="_CPPv3N5HX7114trysE"></span><span id="_CPPv2N5HX7114trysE"></span><span id="HX711::trys__uint8_t"></span><span class="target" id="classHX711_1aef0582f862de9c944b0d036ae618aee0"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">trys</span></span></span><a class="headerlink" href="#_CPPv4N5HX7114trysE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX7116_pdsckE">
+<span id="_CPPv3N5HX7116_pdsckE"></span><span id="_CPPv2N5HX7116_pdsckE"></span><span id="HX711::_pdsck__gpio_num_t"></span><span class="target" id="classHX711_1a790595a06338f95768f109073f74d210"></span><span class="n"><span class="pre">gpio_num_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">_pdsck</span></span></span><a class="headerlink" href="#_CPPv4N5HX7116_pdsckE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX7115_doutE">
+<span id="_CPPv3N5HX7115_doutE"></span><span id="_CPPv2N5HX7115_doutE"></span><span id="HX711::_dout__gpio_num_t"></span><span class="target" id="classHX711_1ac47dd3b28e8e78af780442e334fc2e8f"></span><span class="n"><span class="pre">gpio_num_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">_dout</span></span></span><a class="headerlink" href="#_CPPv4N5HX7115_doutE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX7115_gainE">
+<span id="_CPPv3N5HX7115_gainE"></span><span id="_CPPv2N5HX7115_gainE"></span><span id="HX711::_gain__i"></span><span class="target" id="classHX711_1add2d3ec265e6faf6370e1f581dd1a8e5"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">_gain</span></span></span><a class="headerlink" href="#_CPPv4N5HX7115_gainE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX7116_oloadE">
+<span id="_CPPv3N5HX7116_oloadE"></span><span id="_CPPv2N5HX7116_oloadE"></span><span id="HX711::_oload__float"></span><span class="target" id="classHX711_1afd7958cb4d2a25497cf63dad9494ece1"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">_oload</span></span></span><a class="headerlink" href="#_CPPv4N5HX7116_oloadE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX7116_scaleE">
+<span id="_CPPv3N5HX7116_scaleE"></span><span id="_CPPv2N5HX7116_scaleE"></span><span id="HX711::_scale__float"></span><span class="target" id="classHX711_1a5582594ac715930d1d7f0371b3e3bbd0"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">_scale</span></span></span><a class="headerlink" href="#_CPPv4N5HX7116_scaleE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX7118raw_dataE">
+<span id="_CPPv3N5HX7118raw_dataE"></span><span id="_CPPv2N5HX7118raw_dataE"></span><span id="HX711::raw_data__uint8_tA"></span><span class="target" id="classHX711_1a6afbb2f7088989296051ab28a35408fd"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">raw_data</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#_CPPv4N5HX7118raw_dataE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX71110pdsck_confE">
+<span id="_CPPv3N5HX71110pdsck_confE"></span><span id="_CPPv2N5HX71110pdsck_confE"></span><span id="HX711::pdsck_conf__gpio_config_t"></span><span class="target" id="classHX711_1a7c0c30f227a3e40202a1497ae585cc21"></span><span class="n"><span class="pre">gpio_config_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pdsck_conf</span></span></span><a class="headerlink" href="#_CPPv4N5HX71110pdsck_confE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX7119dout_confE">
+<span id="_CPPv3N5HX7119dout_confE"></span><span id="_CPPv2N5HX7119dout_confE"></span><span id="HX711::dout_conf__gpio_config_t"></span><span class="target" id="classHX711_1a34f3ae5d7f3b20c4110cf62311da03e3"></span><span class="n"><span class="pre">gpio_config_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">dout_conf</span></span></span><a class="headerlink" href="#_CPPv4N5HX7119dout_confE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX7116offsetE">
+<span id="_CPPv3N5HX7116offsetE"></span><span id="_CPPv2N5HX7116offsetE"></span><span id="HX711::offset__float"></span><span class="target" id="classHX711_1aa9c15f6b8ca5b72686309f0a19bd1116"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">offset</span></span></span><a class="headerlink" href="#_CPPv4N5HX7116offsetE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX71110read_timesE">
+<span id="_CPPv3N5HX71110read_timesE"></span><span id="_CPPv2N5HX71110read_timesE"></span><span id="HX711::read_times__i"></span><span class="target" id="classHX711_1a4c567502d0272666d395171cb8c1717f"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_times</span></span></span><a class="headerlink" href="#_CPPv4N5HX71110read_timesE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX7116_errorE">
+<span id="_CPPv3N5HX7116_errorE"></span><span id="_CPPv2N5HX7116_errorE"></span><span id="HX711::_error__b"></span><span class="target" id="classHX711_1ac2c65ca23dfe316d2f6781fec1fe5dd7"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">_error</span></span></span><a class="headerlink" href="#_CPPv4N5HX7116_errorE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX71112_loadsamplesE">
+<span id="_CPPv3N5HX71112_loadsamplesE"></span><span id="_CPPv2N5HX71112_loadsamplesE"></span><span id="HX711::_loadsamples__floatA"></span><span class="target" id="classHX711_1a15ff62bd46036fe4cb848f45cf01afa0"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">_loadsamples</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">TARESAMPLES</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#_CPPv4N5HX71112_loadsamplesE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX7117taskrunE">
+<span id="_CPPv3N5HX7117taskrunE"></span><span id="_CPPv2N5HX7117taskrunE"></span><span id="HX711::taskrun__b"></span><span class="target" id="classHX711_1aa81ff63e3042e0068503984f9d5148d7"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">taskrun</span></span></span><a class="headerlink" href="#_CPPv4N5HX7117taskrunE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5HX7119hx711TaskEPv">
+<span id="_CPPv3N5HX7119hx711TaskEPv"></span><span id="_CPPv2N5HX7119hx711TaskEPv"></span><span id="HX711::hx711Task__voidP"></span><span class="target" id="classHX711_1a5c67ffdf73704c54da1d3945463e9a81"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">hx711Task</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">pvParameter</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5HX7119hx711TaskEPv" title="Link to this definition"></a><br /></dt>
+<dd><p>Background Task for reading out hx711 value. </p>
+</dd></dl>
+
+</div>
+</section>
+<section id="hx711-gain-enum">
+<h2>HX711 gain enum<a class="headerlink" href="#hx711-gain-enum" title="Link to this heading"></a></h2>
+<blockquote>
+<div><p>Definition of the gain for hx711</p>
+</div></blockquote>
+<dl class="cpp enum">
+<dt class="sig sig-object cpp" id="_CPPv410hx711_gain">
+<span id="_CPPv310hx711_gain"></span><span id="_CPPv210hx711_gain"></span><span class="target" id="hx711_8h_1a807b05c9730fdb0e79190d8fac16b938"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">hx711_gain</span></span></span><a class="headerlink" href="#_CPPv410hx711_gain" title="Link to this definition"></a><br /></dt>
+<dd><p>Enum for set gain to hx711 modul. </p>
+<p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10hx711_gain8GAIN_128E">
+<span id="_CPPv3N10hx711_gain8GAIN_128E"></span><span id="_CPPv2N10hx711_gain8GAIN_128E"></span><span class="target" id="hx711_8h_1a807b05c9730fdb0e79190d8fac16b938afccf8091c078cc44a7043c20ffd2b6d0"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GAIN_128</span></span></span><a class="headerlink" href="#_CPPv4N10hx711_gain8GAIN_128E" title="Link to this definition"></a><br /></dt>
+<dd><p>gain factor 128 for channel A </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10hx711_gain7GAIN_32E">
+<span id="_CPPv3N10hx711_gain7GAIN_32E"></span><span id="_CPPv2N10hx711_gain7GAIN_32E"></span><span class="target" id="hx711_8h_1a807b05c9730fdb0e79190d8fac16b938a489f822db7d0e83c97acf4fe51f23225"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GAIN_32</span></span></span><a class="headerlink" href="#_CPPv4N10hx711_gain7GAIN_32E" title="Link to this definition"></a><br /></dt>
+<dd><p>gain factor 32 for channel B </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10hx711_gain7GAIN_64E">
+<span id="_CPPv3N10hx711_gain7GAIN_64E"></span><span id="_CPPv2N10hx711_gain7GAIN_64E"></span><span class="target" id="hx711_8h_1a807b05c9730fdb0e79190d8fac16b938a476c2f976a421da693bb90fa17dc06d0"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GAIN_64</span></span></span><a class="headerlink" href="#_CPPv4N10hx711_gain7GAIN_64E" title="Link to this definition"></a><br /></dt>
+<dd><p>gain factor 64 for channel A </p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="hx711-config-struct">
+<h2>HX711 config struct<a class="headerlink" href="#hx711-config-struct" title="Link to this heading"></a></h2>
+<blockquote>
+<div><p>Struct used to set the config for hx711 library</p>
+</div></blockquote>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv412hx711_conf_t">
+<span id="_CPPv312hx711_conf_t"></span><span id="_CPPv212hx711_conf_t"></span><span id="hx711_conf_t"></span><span class="target" id="structhx711__conf__t"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">hx711_conf_t</span></span></span><a class="headerlink" href="#_CPPv412hx711_conf_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Struct for configuration. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12hx711_conf_t9pin_pdsckE">
+<span id="_CPPv3N12hx711_conf_t9pin_pdsckE"></span><span id="_CPPv2N12hx711_conf_t9pin_pdsckE"></span><span id="hx711_conf_t::pin_pdsck__i"></span><span class="target" id="structhx711__conf__t_1abef3a25d2824b6ed7526f17b33378314"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pin_pdsck</span></span></span><a class="headerlink" href="#_CPPv4N12hx711_conf_t9pin_pdsckE" title="Link to this definition"></a><br /></dt>
+<dd><p>assign clockpin </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12hx711_conf_t8pin_doutE">
+<span id="_CPPv3N12hx711_conf_t8pin_doutE"></span><span id="_CPPv2N12hx711_conf_t8pin_doutE"></span><span id="hx711_conf_t::pin_dout__i"></span><span class="target" id="structhx711__conf__t_1a1165c7c70416fe66f80bdc47678fe07b"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pin_dout</span></span></span><a class="headerlink" href="#_CPPv4N12hx711_conf_t8pin_doutE" title="Link to this definition"></a><br /></dt>
+<dd><p>assign data out pin </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12hx711_conf_t7samplesE">
+<span id="_CPPv3N12hx711_conf_t7samplesE"></span><span id="_CPPv2N12hx711_conf_t7samplesE"></span><span id="hx711_conf_t::samples__uint8_t"></span><span class="target" id="structhx711__conf__t_1a9bf1cd62303ac41c4720105cd9a3f523"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">samples</span></span></span><a class="headerlink" href="#_CPPv4N12hx711_conf_t7samplesE" title="Link to this definition"></a><br /></dt>
+<dd><p>set read times for average read </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12hx711_conf_t4gainE">
+<span id="_CPPv3N12hx711_conf_t4gainE"></span><span id="_CPPv2N12hx711_conf_t4gainE"></span><span id="hx711_conf_t::gain__hx711_gain"></span><span class="target" id="structhx711__conf__t_1a3b73a5cfe40d03e97bd3546fb35ae3c6"></span><a class="reference internal" href="#_CPPv410hx711_gain" title="hx711_gain"><span class="n"><span class="pre">hx711_gain</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gain</span></span></span><a class="headerlink" href="#_CPPv4N12hx711_conf_t4gainE" title="Link to this definition"></a><br /></dt>
+<dd><p>set the gain </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12hx711_conf_t5scaleE">
+<span id="_CPPv3N12hx711_conf_t5scaleE"></span><span id="_CPPv2N12hx711_conf_t5scaleE"></span><span id="hx711_conf_t::scale__float"></span><span class="target" id="structhx711__conf__t_1a39dc1adf642e154dd025b835cd7cb6fc"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">scale</span></span></span><a class="headerlink" href="#_CPPv4N12hx711_conf_t5scaleE" title="Link to this definition"></a><br /></dt>
+<dd><p>set the scale factor </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="hx711-defines">
+<h2>HX711 defines<a class="headerlink" href="#hx711-defines" title="Link to this heading"></a></h2>
+<p>Here you can see the defaults defines</p>
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.SCALE">
+<span class="target" id="group__Defaults_1ga0cbea62f1ce2043dd08108e65ed8de1d"></span><span class="sig-name descname"><span class="n"><span class="pre">SCALE</span></span></span> <span class="pre">491.f</span><a class="headerlink" href="#c.SCALE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.OFFSET">
+<span class="target" id="group__Defaults_1ga21005f9f4e2ce7597c5eb4351816d7e2"></span><span class="sig-name descname"><span class="n"><span class="pre">OFFSET</span></span></span> <span class="pre">46709.0</span><a class="headerlink" href="#c.OFFSET" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.TARESAMPLES">
+<span class="target" id="group__Defaults_1ga2372c1ebc2fda891a00b5642694f9df3"></span><span class="sig-name descname"><span class="n"><span class="pre">TARESAMPLES</span></span></span> <span class="pre">20</span><a class="headerlink" href="#c.TARESAMPLES" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.WAIT_TIME">
+<span class="target" id="group__Defaults_1gae7676cdfa371dfdcf6fb0687737c29a6"></span><span class="sig-name descname"><span class="n"><span class="pre">WAIT_TIME</span></span></span> <span class="pre">20</span><a class="headerlink" href="#c.WAIT_TIME" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="Quickstart" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="license.html" class="btn btn-neutral float-right" title="License" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Juen Rene.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

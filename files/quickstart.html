@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quickstart &mdash; HX711  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="HX711 Class" href="hx711.html" />
+    <link rel="prev" title="Welcome to HX711’s documentation!" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            HX711
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.9
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Welcome to HX711’s documentation!</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#initialization-and-setup">Initialization and setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#constructer-with-default-config">Constructer with default config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#constructer-with-custom-config">Constructer with custom config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tare-the-scale">Tare the scale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#perform-update-of-weight-value">Perform update of weight value</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#read-load-value">Read load value</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="hx711.html">HX711 Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">HX711</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Quickstart</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/files/quickstart.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quickstart">
+<h1>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h1>
+<div class="line-block">
+<div class="line">Here you can find a short example to use the library in your project.</div>
+<div class="line">You can also find an example in <a class="reference external" href="https://gitlab.renejuen.at/av_jui/hx711/-/tree/master/example">example</a> folder.</div>
+</div>
+<section id="initialization-and-setup">
+<h2>Initialization and setup<a class="headerlink" href="#initialization-and-setup" title="Link to this heading"></a></h2>
+<p>At first we must include the header files</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;hx711.h&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="constructer-with-default-config">
+<h2>Constructer with default config<a class="headerlink" href="#constructer-with-default-config" title="Link to this heading"></a></h2>
+<div class="line-block">
+<div class="line">After that we can create a Object with the standart config.</div>
+<div class="line">This means the configuration made by <code class="code docutils literal notranslate"><span class="pre">menuconfig</span></code> well be used.</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There you can find a <code class="code docutils literal notranslate"><span class="pre">HX711</span> <span class="pre">Configuration</span></code> section.</p>
+</div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Init with default config</span>
+<span class="cm">*  or config make with &#39;menuconfig&#39;</span>
+<span class="cm">*/</span>
+<span class="n">HX711</span><span class="w"> </span><span class="n">load</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+<section id="constructer-with-custom-config">
+<h2>Constructer with custom config<a class="headerlink" href="#constructer-with-custom-config" title="Link to this heading"></a></h2>
+<div class="line-block">
+<div class="line">If you want more control over the configuration you can use the overloaded constructer.</div>
+<div class="line">Ther you can use the <code class="code docutils literal notranslate"><span class="pre">hx711_conf_t</span></code> struct.</div>
+</div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Create custom config */</span>
+<span class="n">hx711_conf_t</span><span class="w"> </span><span class="n">conf_hx711</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">.</span><span class="n">pin_pdsck</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span>
+<span class="w">    </span><span class="p">.</span><span class="n">pin_dout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">27</span><span class="p">,</span>
+<span class="w">    </span><span class="p">.</span><span class="n">samples</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">    </span><span class="p">.</span><span class="n">gain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GAIN_128</span><span class="p">,</span>
+<span class="w">    </span><span class="p">.</span><span class="n">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SCALE</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="cm">/* Init with custom config */</span>
+<span class="n">HX711</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="o">&amp;</span><span class="n">conf_hx711</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="tare-the-scale">
+<h2>Tare the scale<a class="headerlink" href="#tare-the-scale" title="Link to this heading"></a></h2>
+<p>We can tare automaticly to get the right offset</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You must be sure that you have nothing on the scale. Otherwise 0 gramm will be set
+within the weight staying on the scale when the tare function will be execute.</p>
+</div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Tare the scale */</span>
+<span class="n">load</span><span class="p">.</span><span class="n">tare</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>An other option is to set the offset manual. Maybe from stored value.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Set new offset */</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">newoffset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">46709.0</span><span class="p">;</span>
+<span class="n">load</span><span class="p">.</span><span class="n">setOffset</span><span class="p">(</span><span class="n">newoffset</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="perform-update-of-weight-value">
+<h2>Perform update of weight value<a class="headerlink" href="#perform-update-of-weight-value" title="Link to this heading"></a></h2>
+<p>Here we have two options to update the <code class="code docutils literal notranslate"><span class="pre">cellload</span></code> value.</p>
+<p>One option can be to start the background task.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Start background task to periodicly read out value from hx711 modul */</span>
+<span class="n">load</span><span class="p">.</span><span class="n">startTask</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>The other option is to poll it manuely. Be sure that you periodacly execute this
+function to get a new value.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Perform read out value from hx711 modul */</span>
+<span class="n">load</span><span class="p">.</span><span class="n">update</span><span class="p">();</span>
+</pre></div>
+</div>
+</section>
+<section id="read-load-value">
+<h2>Read load value<a class="headerlink" href="#read-load-value" title="Link to this heading"></a></h2>
+<p>To read the load you can use the variable <code class="code docutils literal notranslate"><span class="pre">cellload</span></code>. If you have started
+the background task you can read the value, without doing anything else.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Read value and print */</span>
+<span class="n">ESP_LOGI</span><span class="p">(</span><span class="s">&quot;MAIN&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Cell load: [ %.2f gram ] </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">load</span><span class="p">.</span><span class="n">cellload</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Default we read the value for 10 times to get an average to have a more accurate result.
+When the hx711 modul is set to 10Mhz we get all second one result 10MHz/10.
+After some testing it resuslts that it looks like the modul i testet has about 5Mhz.
+So we get a result every 2 seconds. You can change this behavier by change
+the <code class="code docutils literal notranslate"><span class="pre">HX711_SAMPLES</span></code> variable or by using the constructer with custom config.</p>
+</div>
+<p>If you have choose to poll it manuel you must call <code class="code docutils literal notranslate"><span class="pre">update</span></code> before reading.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Update variable */</span>
+<span class="n">load</span><span class="p">.</span><span class="n">update</span><span class="p">();</span>
+
+<span class="cm">/* Read value and print */</span>
+<span class="n">ESP_LOGI</span><span class="p">(</span><span class="s">&quot;MAIN&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Cell load: [ %.2f gram ] </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">load</span><span class="p">.</span><span class="n">cellload</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="Welcome to HX711’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="hx711.html" class="btn btn-neutral float-right" title="HX711 Class" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Juen Rene.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

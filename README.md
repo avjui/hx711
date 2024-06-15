@@ -37,7 +37,7 @@ dependencies:
   idf: ">=4.4"
 
   hx711:
-    git: https://gitlab.renejuen.at/av_jui/hx711.git
+    git: https://github.com/avjui/hx711.git
 ```
 :file_folder: The file was also aviable in the [example folder main dirctory](./example/main/).
 
@@ -49,7 +49,7 @@ To use this library in platformio you can add `lib_deps` to your configuration f
 
 ```
 lib_deps = 
-    git+https://gitlab.renejuen.at/av_jui/hx711
+    git+https://github.com/avjui/hx711
 ```
 :warning: Because platformio not regiester the `Kconfig` by him self you also must put following lines to your `CMakeLists.txt` in the root directory. 
 

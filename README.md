@@ -60,13 +60,37 @@ To use this library in platformio you can add `lib_deps` to your configuration f
 lib_deps = 
     git+https://github.com/avjui/hx711
 ```
-:warning: Because platformio not regiester the `Kconfig` by him self you also must put following lines to your `CMakeLists.txt` in the root directory. 
+:warning: Because platformio not regiester the `Kconfig` by him self you have to add `Kconfig` with editing `CMakeLists.txt`, or add the config variables to `platfomrio.ini`.
+
+- First option is to add following lines to `CMakeLists.txt` in the root directory.
 
 ```
 get_filename_component(configName "${CMAKE_BINARY_DIR}" NAME)
 list(APPEND kconfigs "${CMAKE_SOURCE_DIR}/.pio/libdeps/${configName}/hx711/Kconfig")
 ```
 
+- An other option is to add the config to `platformio.ini`.
+
+```
+[hx711]
+; Build flags for hx711 library
+build_flags=
+    -D CONFIG_HX711_PIN_PDSCK=26 ; clock pin
+    -D CONFIG_HX711_PIN_PDOUT=25 ; out pin
+    -D CONFIG_HX711_SCALE=491    ; scale factor
+    -D CONFIG_HX711_TARETIME=20  ; samples we use for tare       
+    -D CONFIG_HX711_SAMPLES=10   ; samples we use for avarge value
+    -D CONFIG_HX711_WAIT_TIME=2  ; time to wait when toggle pins
+    -D CONFIG_HX711_GAIN=1       ; Gain channel A 128=1, 32=3, channel B 64=2 
+
+    [env:...]
+    ....
+
+    build_flags = 
+        ${hx711.build_flags}
+
+
+```
 ## Usage <a name = "usage"></a>
 
 Add notes about how to use the system.

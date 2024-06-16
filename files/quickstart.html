@@ -52,12 +52,22 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Welcome to HX711’s documentation!</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#initialization-and-setup">Initialization and setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#constructer-with-default-config">Constructer with default config</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#constructer-with-custom-config">Constructer with custom config</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#tare-the-scale">Tare the scale</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#perform-update-of-weight-value">Perform update of weight value</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#read-load-value">Read load value</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#esp-idf">ESP-IDF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#platformio">Platformio</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#initialization-and-setup">Initialization and setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#constructer-with-default-config">Constructer with default config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#constructer-with-custom-config">Constructer with custom config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tare-the-scale">Tare the scale</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#perform-update-of-weight-value">Perform update of weight value</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#read-load-value">Read load value</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="hx711.html">HX711 Class</a></li>
@@ -94,15 +104,71 @@
 <div class="line">Here you can find a short example how to use the library in your project.</div>
 <div class="line">You can also find an example in <a class="reference external" href="https://github.com/avjui/hx711/tree/master/example">example</a> folder.</div>
 </div>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<section id="esp-idf">
+<h3>ESP-IDF<a class="headerlink" href="#esp-idf" title="Link to this heading"></a></h3>
+<p>The library contains a <cite>idf_compent.yml</cite> file. So you can install it with the esp-idf packagemanager to be aviable in your project.</p>
+<p>To integerate it to your project create a file named <cite>idf_compent.yml</cite> and put following lines in it.</p>
+<div class="highlight-yml notranslate"><div class="highlight"><pre><span></span>dependencies:
+    idf: &quot;&gt;=4.4&quot;
+
+    hx711:
+        git: https://github.com/avjui/hx711.git
+</pre></div>
+</div>
+<p>The file was also aviable in the [example folder main dirctory](./example/main/).</p>
+<p>After this installation is complete and you can build your project with th hx711 library.</p>
+</section>
+<section id="platformio">
+<h3>Platformio<a class="headerlink" href="#platformio" title="Link to this heading"></a></h3>
+<p>To use this library in platformio you can add <cite>lib_deps</cite> to your configuration file <cite>platformio.ini</cite></p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">lib_deps</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="na">git+https</span><span class="o">:</span><span class="s">//github.com/avjui/hx711</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Because platformio not regiester the <cite>Kconfig</cite> by him self you have to add <cite>Kconfig</cite> with editing <cite>CMakeLists.txt</cite>, or add the config variables to <cite>platfomrio.ini</cite>.</p>
+</div>
+<ul class="simple">
+<li><p>First option is to add following lines to <cite>CMakeLists.txt</cite> in the root directory.</p></li>
+</ul>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">get_filename_component</span><span class="p">(</span><span class="s">configName</span><span class="w"> </span><span class="s2">&quot;${CMAKE_BINARY_DIR}&quot;</span><span class="w"> </span><span class="s">NAME</span><span class="p">)</span>
+<span class="nb">list</span><span class="p">(</span><span class="s">APPEND</span><span class="w"> </span><span class="s">kconfigs</span><span class="w"> </span><span class="s2">&quot;${CMAKE_SOURCE_DIR}/.pio/libdeps/${configName}/hx711/Kconfig&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Second option is to add the config to <cite>platformio.ini</cite>.</p></li>
+</ul>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[hx711]</span>
+<span class="c1">; Build flags for hx711 library</span>
+<span class="na">build_flags</span><span class="o">=</span>
+<span class="w">    </span><span class="na">-D CONFIG_HX711_PIN_PDSCK</span><span class="o">=</span><span class="s">26</span><span class="w"> </span><span class="c1">; clock pin</span>
+<span class="w">    </span><span class="na">-D CONFIG_HX711_PIN_PDOUT</span><span class="o">=</span><span class="s">25</span><span class="w"> </span><span class="c1">; out pin</span>
+<span class="w">    </span><span class="na">-D CONFIG_HX711_SCALE</span><span class="o">=</span><span class="s">491</span><span class="w">    </span><span class="c1">; scale factor</span>
+<span class="w">    </span><span class="na">-D CONFIG_HX711_TARETIME</span><span class="o">=</span><span class="s">20</span><span class="w">  </span><span class="c1">; samples we use for tare</span>
+<span class="w">    </span><span class="na">-D CONFIG_HX711_SAMPLES</span><span class="o">=</span><span class="s">10</span><span class="w">   </span><span class="c1">; samples we use for avarge value</span>
+<span class="w">    </span><span class="na">-D CONFIG_HX711_WAIT_TIME</span><span class="o">=</span><span class="s">2</span><span class="w">  </span><span class="c1">; time to wait when toggle pins</span>
+<span class="w">    </span><span class="na">-D CONFIG_HX711_GAIN</span><span class="o">=</span><span class="s">1</span><span class="w">       </span><span class="c1">; Gain channel A 128=1, 32=3, channel B 64=2</span>
+
+<span class="k">[env:...]</span>
+<span class="na">....</span>
+
+<span class="na">build_flags</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="na">${hx711.build_flags}</span>
+</pre></div>
+</div>
+</section>
+</section>
 <section id="initialization-and-setup">
 <h2>Initialization and setup<a class="headerlink" href="#initialization-and-setup" title="Link to this heading"></a></h2>
 <p>At first we must include the header files</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;hx711.h&gt;</span>
 </pre></div>
 </div>
-</section>
 <section id="constructer-with-default-config">
-<h2>Constructer with default config<a class="headerlink" href="#constructer-with-default-config" title="Link to this heading"></a></h2>
+<h3>Constructer with default config<a class="headerlink" href="#constructer-with-default-config" title="Link to this heading"></a></h3>
 <div class="line-block">
 <div class="line">After that we can create a Object with the standart config.</div>
 <div class="line">This means the configuration made by <code class="code docutils literal notranslate"><span class="pre">menuconfig</span></code> well be used.</div>
@@ -119,7 +185,7 @@
 </div>
 </section>
 <section id="constructer-with-custom-config">
-<h2>Constructer with custom config<a class="headerlink" href="#constructer-with-custom-config" title="Link to this heading"></a></h2>
+<h3>Constructer with custom config<a class="headerlink" href="#constructer-with-custom-config" title="Link to this heading"></a></h3>
 <div class="line-block">
 <div class="line">If you want more control over the configuration you can use the overloaded constructer.</div>
 <div class="line">Ther you can use the <code class="code docutils literal notranslate"><span class="pre">hx711_conf_t</span></code> struct.</div>
@@ -139,7 +205,7 @@
 </div>
 </section>
 <section id="tare-the-scale">
-<h2>Tare the scale<a class="headerlink" href="#tare-the-scale" title="Link to this heading"></a></h2>
+<h3>Tare the scale<a class="headerlink" href="#tare-the-scale" title="Link to this heading"></a></h3>
 <p>We can tare automaticly to get the right offset</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -157,8 +223,11 @@ within the weight staying on the scale when the tare function will be execute.</
 </pre></div>
 </div>
 </section>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
 <section id="perform-update-of-weight-value">
-<h2>Perform update of weight value<a class="headerlink" href="#perform-update-of-weight-value" title="Link to this heading"></a></h2>
+<h3>Perform update of weight value<a class="headerlink" href="#perform-update-of-weight-value" title="Link to this heading"></a></h3>
 <p>Here we have two options to update the <code class="code docutils literal notranslate"><span class="pre">cellload</span></code> value.</p>
 <p>One option can be to start the background task.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Start background task to periodicly read out value from hx711 modul */</span>
@@ -173,7 +242,7 @@ function to get a new value.</p>
 </div>
 </section>
 <section id="read-load-value">
-<h2>Read load value<a class="headerlink" href="#read-load-value" title="Link to this heading"></a></h2>
+<h3>Read load value<a class="headerlink" href="#read-load-value" title="Link to this heading"></a></h3>
 <p>To read the load you can use the variable <code class="code docutils literal notranslate"><span class="pre">cellload</span></code>. If you have started
 the background task you can read the value, without doing anything else.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Read value and print */</span>
@@ -196,6 +265,7 @@ the <code class="code docutils literal notranslate"><span class="pre">HX711_SAMP
 <span class="n">ESP_LOGI</span><span class="p">(</span><span class="s">&quot;MAIN&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Cell load: [ %.2f gram ] </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">load</span><span class="p">.</span><span class="n">cellload</span><span class="p">);</span>
 </pre></div>
 </div>
+</section>
 </section>
 </section>
 

@@ -1,12 +1,21 @@
 # HX711 Library
 
+<img src="doc/_static/logo.png" width="200" height="200">
+
+![platformio build](https://github.com/avjui/hx711/actions/workflows/build.yml/badge.svg)  ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/avjui/hx711)  [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
 ## Table of Contents
 
-- [About](#about)
-- [Getting Started](#getting_started)
-- [Usage](#usage)
-- [TODO](#todo)
-- [License](./LICENSE)
+- [HX711 Library](#hx711-library)
+  - [Table of Contents](#table-of-contents)
+  - [About ](#about-)
+  - [Getting Started ](#getting-started-)
+    - [Installing ](#installing-)
+      - [ESP-IDF ](#esp-idf-)
+      - [Platformio ](#platformio-)
+  - [Usage ](#usage-)
+  - [Documentation ](#documentation-)
+  - [Todo ](#todo-)
 
 ## About <a name = "about"></a>
 
@@ -24,9 +33,9 @@ The main featers are:
  - Remove highest and lowest value to get more accurate results
 
 
-### Installing
+### Installing <a name = "installing"></a>
 
-#### ESP-IDF
+#### ESP-IDF <a name = "esp-idf"></a>
 
 The library contains a `idf_compent.yml` file. So you can install it with the esp-idf packagemanager to be aviable in your project.
 
@@ -43,7 +52,7 @@ dependencies:
 
 After this installation is complete and you can build your project with th hx711 library.
 
-##### Platformio
+#### Platformio <a name = "platformio"></a>
 
 To use this library in platformio you can add `lib_deps` to your configuration file `platformio.ini`
 
@@ -91,6 +100,11 @@ for(;;)
 ```
 
 You can find an example in the [example folder](./example)
+
+## Documentation <a name = "documentation"></a>
+
+For more information you can have a look at the [documentation](https://avjui.github.io/hx711/).
+
 
 ## Todo <a name = "todo"></a>
 
